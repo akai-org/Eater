@@ -5,7 +5,7 @@ buildscript {
         kotlin_version = '1.5.31'
         nav_version = '2.3.5'
         hilt_version = '2.38.1'
-        gradle_version = '4.2.2'
+        gradle_version = '7.0.3'
         compose_version = '1.0.4'
         compose_activity_version = '1.3.1'
         compose_viewmodel_version = '2.4.0-rc01'
@@ -17,6 +17,7 @@ buildscript {
         junit_ext_version = '1.1.3'
         espresso_version = '3.4.0'
         glide_version = '4.12.0'
+//        landscapist_glide = '1.4.0'
     }
 
     repositories {
