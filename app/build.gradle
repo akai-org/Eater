@@ -71,4 +71,7 @@ dependencies {
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test.ext:junit:$junit_ext_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$viewmodel_runtime_ktx_version"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$viewmodel_runtime_ktx_version"
 }
