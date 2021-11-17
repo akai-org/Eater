@@ -1,4 +1,5 @@
 package pl.org.akai.eater.ui
 
-class Shapes {
-}
+import androidx.compose.material.Shapes
+
+val EaterShapes = Shapes()
