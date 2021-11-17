@@ -16,6 +16,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import pl.org.akai.eater.navigation.EaterScreen
+import pl.org.akai.eater.ui.EaterTheme
 import pl.org.akai.eater.util.NullArgumentException
 import kotlin.math.log
 
@@ -30,8 +31,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun EaterApp() {
-    //TODO add custom EaterTheme
-    MaterialTheme {
+    EaterTheme {
         val allScreens = EaterScreen.values().toList()
         val navController = rememberNavController()
         val backstackEntry = navController.currentBackStackEntryAsState()
