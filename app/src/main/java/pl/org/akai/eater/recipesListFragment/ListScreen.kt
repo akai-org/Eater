@@ -15,8 +15,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberImagePainter
 import pl.org.akai.eater.recipesListFragment.RecipeEntryData
+import androidx.compose.foundation.Image
+import coil.compose.rememberImagePainter
 
 @Composable
 fun ListScreen(onItemClicked: (String) -> Unit, onAddItemClicked: () -> Unit) {
@@ -31,7 +32,7 @@ fun ListScreen(onItemClicked: (String) -> Unit, onAddItemClicked: () -> Unit) {
         SearchBar()
         RecipesList(recipesList, onItemClicked, modifier = Modifier.weight(1f))
         Button(
-            onClick = { onAddItemClicked },
+            onClick = { onAddItemClicked() },
             modifier = Modifier
                 .padding(bottom = 16.dp)
                 .padding(horizontal = 16.dp)
@@ -78,7 +79,7 @@ fun RecipeEntry(recipeEntry: RecipeEntryData, onItemClicked: (String) -> Unit) {
             .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .border(BorderStroke(1.dp, Color.Gray), RoundedCornerShape(8.dp))
-            .clickable { onItemClicked }
+            .clickable { onItemClicked(recipeEntry.id) }
     ) {
         Image(
             painter = rememberImagePainter(recipeEntry.imageUrl),
@@ -127,6 +128,7 @@ fun PreviewListScreen() {
 @Composable
 fun PrevievRecipe() {
     val recipe = RecipeEntryData(
+        id = "1",
         title = "Spaghetti",
         description = "lorem ipsu mskafmp wopqenoiasdfnm ;asmkfokanmsf pqmwefpoqwk",
         imageUrl = null
@@ -140,26 +142,31 @@ fun PrevievRecipe() {
 
 val recipesList = listOf<RecipeEntryData>(
     RecipeEntryData(
+        "1",
         "Spaghetti",
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
         "https://naszprzepis.pl/wp-content/uploads/2019/09/spaghetti_bolognase_land.jpg"
         ),
     RecipeEntryData(
+        "2",
         "Spaghetti",
         "Lorem ipsum dolor sit  ",
         "https://images.aws.nestle.recipes/resized/a85b66e33f537f17d981da4d82958b4c_spaghetti_bolognese_944_531.jpg"
     ),
     RecipeEntryData(
+        "3",
         "Spaghetti",
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
         "https://naszprzepis.pl/wp-content/uploads/2019/09/spaghetti_bolognase_land.jpg"
     ),
     RecipeEntryData(
+        "4",
         "Spaghetti",
         "",
         ""
     ),
     RecipeEntryData(
+        "5",
         "Spaghetti",
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
         "https://naszprzepis.pl/wp-content/uploads/2019/09/spaghetti_bolognase_land.jpg"
