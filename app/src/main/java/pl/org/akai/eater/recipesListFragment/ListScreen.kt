@@ -18,15 +18,15 @@ import androidx.compose.ui.unit.sp
 import pl.org.akai.eater.recipesListFragment.RecipeEntryData
 import androidx.compose.foundation.Image
 import coil.compose.rememberImagePainter
+import pl.org.akai.eater.ui.EaterTheme
+import pl.org.akai.eater.ui.EaterTypography
 
 @Composable
 fun ListScreen(onItemClicked: (String) -> Unit, onAddItemClicked: () -> Unit) {
     Column() {
         Text(
             text = stringResource(R.string.recipes),
-            //Todo change MaterialTheme when our Theme is created
-            style = MaterialTheme.typography.h1,
-            fontSize = 40.sp,
+            style = EaterTypography.h1,
             modifier = Modifier.padding(top = 16.dp, start = 16.dp, bottom = 24.dp)
         )
         SearchBar()
@@ -85,18 +85,16 @@ fun RecipeEntry(recipeEntry: RecipeEntryData, onItemClicked: (String) -> Unit) {
             painter = rememberImagePainter(recipeEntry.imageUrl),
             contentDescription = null,
             modifier = Modifier
-                .size(128.dp)
                 .align(Alignment.CenterVertically)
                 .padding(18.dp)
+                .size(128.dp)
                 .background(Color.Gray)
         )
         Column() {
             Text(
                 text = recipeEntry.title,
                 maxLines =1,
-                /* TODO change MaterialTheme */
-                style = MaterialTheme.typography.h2,
-                fontSize = 33.sp,
+                style = EaterTypography.h2,
                 modifier = Modifier
                     .padding(16.dp)
             )
@@ -104,9 +102,7 @@ fun RecipeEntry(recipeEntry: RecipeEntryData, onItemClicked: (String) -> Unit) {
             Text(
                 text = recipeEntry.description.toString(),
                 maxLines =1,
-                /* TODO change MaterialTheme */
-                style = MaterialTheme.typography.body1,
-                fontSize = 16.sp,
+                style = EaterTypography.body1,
                 modifier = Modifier
                     .padding(16.dp)
             )
@@ -117,7 +113,7 @@ fun RecipeEntry(recipeEntry: RecipeEntryData, onItemClicked: (String) -> Unit) {
 @Preview("List Screen")
 @Composable
 fun PreviewListScreen() {
-    MaterialTheme {
+    EaterTheme {
         Scaffold { innerPadding ->
             ListScreen( onItemClicked = {}, onAddItemClicked = {})
         }
@@ -133,7 +129,7 @@ fun PrevievRecipe() {
         description = "lorem ipsu mskafmp wopqenoiasdfnm ;asmkfokanmsf pqmwefpoqwk",
         imageUrl = null
     )
-    MaterialTheme {
+    EaterTheme {
         Surface {
             RecipeEntry(recipeEntry = recipe, onItemClicked = { })
         }
