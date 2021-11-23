@@ -1,12 +1,12 @@
 package pl.org.akai.eater
 
+import androidx.compose.animation.*
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -16,6 +16,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import pl.org.akai.eater.recipesListFragment.RecipeEntryData
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.runtime.*
 import coil.compose.rememberImagePainter
 import pl.org.akai.eater.ui.EaterTheme
 import pl.org.akai.eater.ui.EaterTypography
@@ -28,7 +31,6 @@ fun ListScreen(onItemClicked: (String) -> Unit, onAddItemClicked: () -> Unit) {
             style = EaterTypography.h1,
             modifier = Modifier.padding(top = 16.dp, start = 16.dp, bottom = 24.dp)
         )
-        SearchBar()
         RecipesList(recipesList, onItemClicked, modifier = Modifier.weight(1f))
         Button(
             onClick = { onAddItemClicked() },
@@ -44,31 +46,46 @@ fun ListScreen(onItemClicked: (String) -> Unit, onAddItemClicked: () -> Unit) {
 }
 
 @Composable
-fun SearchBar() {
-    Row(
-        modifier = Modifier
-            .padding(16.dp)
-            .fillMaxWidth()
-            .border(BorderStroke(1.dp, Color.Gray), RoundedCornerShape(8.dp))
-    ) {
-        TextField(
-            value = "Search recipe...",
-            onValueChange = { /* TODO implement search bar*/ },
-            modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .fillMaxWidth()
-        )
-    }
-}
-
-@Composable
 fun RecipesList(recipes: List<RecipeEntryData>, onItemClicked: (String) -> Unit, modifier: Modifier) {
-    LazyColumn(modifier) {
+    val listState = rememberLazyListState()
+    SearchBar(listState = listState)
+    LazyColumn(modifier = modifier, state = listState) {
         items(recipes) { recipe ->
             RecipeEntry(recipe, onItemClicked)
         }
     }
 }
+
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun SearchBar(listState: LazyListState) {
+    val scrolledDown by remember {
+        derivedStateOf {
+            listState.firstVisibleItemIndex > 0
+        }
+    }
+    AnimatedVisibility(
+        visible = !scrolledDown,
+        enter = slideInVertically() + expandVertically(),
+        exit = slideOutVertically() + shrinkVertically()
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth()
+                .border(BorderStroke(1.dp, Color.Gray), RoundedCornerShape(8.dp))
+        ) {
+            TextField(
+                value = "Search recipe...",
+                onValueChange = { /* TODO implement search bar*/ },
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .fillMaxWidth()
+            )
+        }
+    }
+}
+
 
 @Composable
 fun RecipeEntry(recipeEntry: RecipeEntryData, onItemClicked: (String) -> Unit) {
