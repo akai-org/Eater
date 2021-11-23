@@ -19,6 +19,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.*
+import androidx.compose.ui.layout.ContentScale
 import coil.compose.rememberImagePainter
 import pl.org.akai.eater.ui.EaterTheme
 import pl.org.akai.eater.ui.EaterTypography
@@ -100,19 +101,20 @@ fun RecipeEntry(recipeEntry: RecipeEntryData, onItemClicked: (String) -> Unit) {
         Image(
             painter = rememberImagePainter(recipeEntry.imageUrl),
             contentDescription = null,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
+                .size(96.dp)
                 .align(Alignment.CenterVertically)
-                .padding(18.dp)
-                .size(128.dp)
+                .padding(16.dp)
                 .background(Color.Gray)
         )
         Column() {
             Text(
                 text = recipeEntry.title,
-                maxLines =1,
+                maxLines = 1,
                 style = EaterTypography.h2,
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(top = 8.dp)
             )
 
             Text(
@@ -120,7 +122,7 @@ fun RecipeEntry(recipeEntry: RecipeEntryData, onItemClicked: (String) -> Unit) {
                 maxLines =1,
                 style = EaterTypography.body1,
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(top = 8.dp)
             )
         }
     }
@@ -154,6 +156,35 @@ fun PrevievRecipe() {
 
 val recipesList = listOf<RecipeEntryData>(
     RecipeEntryData(
+        "1",
+        "Spaghetti",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "https://naszprzepis.pl/wp-content/uploads/2019/09/spaghetti_bolognase_land.jpg"
+        ),
+    RecipeEntryData(
+        "2",
+        "Spaghetti",
+        "Lorem ipsum dolor sit  ",
+        "https://images.aws.nestle.recipes/resized/a85b66e33f537f17d981da4d82958b4c_spaghetti_bolognese_944_531.jpg"
+    ),
+    RecipeEntryData(
+        "3",
+        "Spaghetti",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "https://naszprzepis.pl/wp-content/uploads/2019/09/spaghetti_bolognase_land.jpg"
+    ),
+    RecipeEntryData(
+        "4",
+        "Spaghetti",
+        "",
+        ""
+    ),
+    RecipeEntryData(
+        "5",
+        "Spaghetti",
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        "https://naszprzepis.pl/wp-content/uploads/2019/09/spaghetti_bolognase_land.jpg"
+    ),RecipeEntryData(
         "1",
         "Spaghetti",
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
