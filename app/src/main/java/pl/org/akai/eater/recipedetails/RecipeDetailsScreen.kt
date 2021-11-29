@@ -6,17 +6,20 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.viewModels
 import coil.compose.rememberImagePainter
 import pl.org.akai.eater.R
 import pl.org.akai.eater.ui.theme.EaterTheme
 
 @Composable
-fun RecipeDetailsScreen(state: RecipeDetailsState, onNavigate: (RecipeDetailsNavigation) -> Unit) {
+fun RecipeDetailsScreen(state: RecipeDetailsContract.State, onNavigate: (RecipeDetailsNavigation) -> Unit) {
+
     EaterTheme {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
@@ -32,7 +35,7 @@ fun RecipeDetailsScreen(state: RecipeDetailsState, onNavigate: (RecipeDetailsNav
 
 @Composable
 private fun RecipeDetails(
-    state: RecipeDetailsState,
+    state: RecipeDetailsContract.State,
     onNavigate: (RecipeDetailsNavigation) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -88,23 +91,23 @@ private fun NavigationButtons(
 }
 
 @Composable
-private fun Recipe(state: RecipeDetailsState, modifier: Modifier = Modifier) {
+private fun Recipe(state: RecipeDetailsContract.State) {
     Column {
-        RecipeTitle(state)
-        RecipeImage(state)
-        RecipeDescription(state)
-        RecipeIngredients(state)
+        RecipeTitle(state.title)
+        RecipeImage(state.imageUrl)
+        RecipeDescription(state.description)
+        RecipeIngredients(state.ingredients)
     }
 }
 
 @Composable
-private fun RecipeIngredients(state: RecipeDetailsState) {
+private fun RecipeIngredients(ingredients: List<Ingredient>) {
     Text(
         text = "Składniki (na 1 porcję)",
         style = MaterialTheme.typography.h5,
         modifier = Modifier.padding(vertical = 8.dp)
     )
-    state.ingredients.forEach {
+    ingredients.forEach {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
@@ -116,17 +119,17 @@ private fun RecipeIngredients(state: RecipeDetailsState) {
 }
 
 @Composable
-private fun RecipeDescription(state: RecipeDetailsState) {
+private fun RecipeDescription(description: String) {
     Text(
-        text = state.description,
+        text = description,
         modifier = Modifier.padding(vertical = 8.dp)
     )
 }
 
 @Composable
-private fun RecipeImage(state: RecipeDetailsState) {
+private fun RecipeImage(imageUrl: String) {
     Image(
-        painter = rememberImagePainter(data = state.imageUrl,
+        painter = rememberImagePainter(data = imageUrl,
             builder = {
                 placeholder(R.drawable.ic_launcher_background)
                 crossfade(true)
@@ -141,9 +144,9 @@ private fun RecipeImage(state: RecipeDetailsState) {
 }
 
 @Composable
-private fun RecipeTitle(state: RecipeDetailsState) {
+private fun RecipeTitle(title:String) {
     Text(
-        text = state.title,
+        text = title,
         fontWeight = FontWeight.Bold,
         style = MaterialTheme.typography.h4,
         modifier = Modifier.padding(vertical = 16.dp)
@@ -154,7 +157,7 @@ private fun RecipeTitle(state: RecipeDetailsState) {
 @Composable
 fun PreviewRecipeDetailsScreen() {
     RecipeDetailsScreen(
-        RecipeDetailsState(
+        RecipeDetailsContract.State(
             title = "Domowa Pizza",
             imageUrl = "https://www.mojegotowanie.pl/media/cache/default_view/uploads/media/recipe/0002/19/pizza-z-salami.jpeg",
             description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but al",
