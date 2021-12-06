@@ -4,6 +4,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun DetailsScreen(recipeId: String) {
-    Text(text = "DetailScreen")
+fun AddRecipeScreen() {
+    Text(text = "AddRecipeScreen")
 }

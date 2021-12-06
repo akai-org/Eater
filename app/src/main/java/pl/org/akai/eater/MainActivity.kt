@@ -18,6 +18,7 @@ import androidx.navigation.navArgument
 import pl.org.akai.eater.navigation.EaterScreen
 import pl.org.akai.eater.ui.EaterTheme
 import pl.org.akai.eater.util.NullArgumentException
+import kotlin.math.log
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +57,8 @@ fun EaterNavHost(navController: NavHostController, modifier: Modifier = Modifier
             ListScreen(
                 onItemClicked = { recipeId ->
                     navigateToRecipeDetails(navController, recipeId)
-                }
+                },
+                onAddItemClicked = { navigateToAddRecipe(navController) }
             )
         }
         composable(
@@ -65,12 +67,14 @@ fun EaterNavHost(navController: NavHostController, modifier: Modifier = Modifier
                 navArgument("recipeId") {
                     type = NavType.StringType
                 }
-
             )
         ) { entry ->
             val recipeId = entry.arguments?.getString("recipeId")
             recipeId?.let { DetailsScreen(it)} ?: throw NullArgumentException("recipeId")
             DetailsScreen(recipeId)
+        }
+        composable(route = EaterScreen.AddRecipe.name) {
+            AddRecipeScreen()
         }
     }
 }
@@ -78,3 +82,5 @@ fun EaterNavHost(navController: NavHostController, modifier: Modifier = Modifier
 private fun navigateToRecipeDetails(navController: NavHostController, recipeId: String) =
     navController.navigate("${EaterScreen.RecipesList.name}/$recipeId")
 
+private fun navigateToAddRecipe(navController: NavHostController) =
+    navController.navigate(EaterScreen.AddRecipe.name)
