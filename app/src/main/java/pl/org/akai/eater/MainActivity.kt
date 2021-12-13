@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -15,10 +15,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import pl.org.akai.eater.authScreen.AuthScreen
+import pl.org.akai.eater.authScreen.AuthViewModel
 import pl.org.akai.eater.navigation.EaterScreen
 import pl.org.akai.eater.ui.EaterTheme
 import pl.org.akai.eater.util.NullArgumentException
-import kotlin.math.log
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,9 +51,12 @@ fun EaterApp() {
 fun EaterNavHost(navController: NavHostController, modifier: Modifier = Modifier) {
     NavHost(
         navController = navController,
-        startDestination = EaterScreen.RecipesList.name,
+        startDestination = EaterScreen.Login.name,
         modifier = modifier
     ) {
+        composable(EaterScreen.Login.name) {
+            AuthScreen(viewModel = AuthViewModel())
+        }
         composable(EaterScreen.RecipesList.name) {
             ListScreen(
                 onItemClicked = { recipeId ->
@@ -78,6 +82,9 @@ fun EaterNavHost(navController: NavHostController, modifier: Modifier = Modifier
         }
     }
 }
+
+private fun navigateToRecipesList(navController: NavHostController) =
+    navController.navigate("${EaterScreen.RecipesList.name}")
 
 private fun navigateToRecipeDetails(navController: NavHostController, recipeId: String) =
     navController.navigate("${EaterScreen.RecipesList.name}/$recipeId")
