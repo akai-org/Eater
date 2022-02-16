@@ -1,5 +1,8 @@
 package pl.org.akai.eater
 
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -22,8 +25,7 @@ import pl.org.akai.eater.ui.EaterTypography
 
 @Composable
 fun LoginFragment(
-    errorText: String?,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     var isLoading = remember { mutableStateOf(false) }
     Column(
@@ -49,11 +51,6 @@ fun LoginFragment(
             icon = painterResource(id = R.drawable.ic_google_icon),
             onClick = onClick
         )
-        errorText?.let {
-            isLoading.value = false
-            Spacer(modifier = Modifier.height(30.dp))
-            Text(text = it)
-        }
     }
 }
 
@@ -89,6 +86,12 @@ fun SignInButton(
                 .clickable(
                     enabled = !isLoading,
                     onClick = onClick
+                )
+                .animateContentSize(
+                    animationSpec = tween(
+                        durationMillis = 300,
+                        easing = LinearOutSlowInEasing
+                    )
                 ),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
@@ -120,7 +123,7 @@ fun SignInButton(
 fun LoginPreview() {
     EaterTheme {
         Scaffold { innerPadding ->
-            LoginFragment( errorText = "sth went wrong", onClick = {})
+            LoginFragment( onClick = {} )
         }
     }
 }

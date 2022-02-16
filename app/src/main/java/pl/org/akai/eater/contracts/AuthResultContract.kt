@@ -1,4 +1,4 @@
-package pl.org.akai.eater.util
+package pl.org.akai.eater.contracts
 
 import android.app.Activity
 import android.content.Context
@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContract
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
+import pl.org.akai.eater.util.getGoogleSignInClient
 
 class AuthResultContract : ActivityResultContract<Int, Task<GoogleSignInAccount>?>() {
     override fun createIntent(context: Context, input: Int?): Intent =

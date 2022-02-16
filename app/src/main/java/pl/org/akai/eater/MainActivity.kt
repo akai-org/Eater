@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -16,7 +16,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import pl.org.akai.eater.authScreen.AuthScreen
-import pl.org.akai.eater.authScreen.AuthViewModel
+import pl.org.akai.eater.viewmodel.AuthViewModel
 import pl.org.akai.eater.navigation.EaterScreen
 import pl.org.akai.eater.ui.EaterTheme
 import pl.org.akai.eater.util.NullArgumentException
@@ -55,7 +55,10 @@ fun EaterNavHost(navController: NavHostController, modifier: Modifier = Modifier
         modifier = modifier
     ) {
         composable(EaterScreen.Login.name) {
-            AuthScreen(viewModel = AuthViewModel())
+            AuthScreen(
+                viewModel = viewModel(),
+                onUserLoggedIn = { navigateToRecipesList(navController) }
+                )
         }
         composable(EaterScreen.RecipesList.name) {
             ListScreen(

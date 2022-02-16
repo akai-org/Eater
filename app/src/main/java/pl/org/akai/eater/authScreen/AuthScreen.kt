@@ -1,25 +1,24 @@
 package pl.org.akai.eater.authScreen
 
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.tooling.preview.Preview
 import com.google.android.gms.common.api.ApiException
 import kotlinx.coroutines.launch
 import pl.org.akai.eater.LoginFragment
-import pl.org.akai.eater.ui.EaterTheme
-import pl.org.akai.eater.util.AuthResultContract
+import pl.org.akai.eater.contracts.AuthResultContract
+import pl.org.akai.eater.viewmodel.AuthViewModel
 
 @Composable
 fun AuthScreen(
-    viewModel: AuthViewModel
+    viewModel: AuthViewModel,
+    onUserLoggedIn: () -> Unit
 ) {
     val coroutineScope = rememberCoroutineScope()
     var text = remember { mutableStateOf<String?>(null) }
-    val user = remember(viewModel) { viewModel.currentState.user }
+    val user = remember(viewModel) { viewModel.user }
     val signInRequestCode = 1
 
     val authResultLauncher =
@@ -31,17 +30,17 @@ fun AuthScreen(
                 } else {
                     coroutineScope.launch {
                         viewModel.signIn(
-                            email = account.email,
-                            displayName = account.displayName,
+                            email = account.email!!,
+                            displayName = account.displayName!!,
                         )
                     }
+                    onUserLoggedIn()
                 }
             } catch (e: ApiException) {
                 text.value = "Google sign in failed"
             }
         }
     LoginFragment(
-        errorText = text.value,
         onClick = {
             text.value = null
             authResultLauncher.launch(signInRequestCode)

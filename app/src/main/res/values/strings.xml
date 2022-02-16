@@ -3,7 +3,7 @@
     <string name="recipes">Recipes</string>
     <string name="add_recipe">Add recipe</string>
     <string name="LoginWelcome">Welcome to Eater!</string>
-    <string name="LoginWelcomeSubtitile">Here you can collect your Recipes and plan a menu and then we\'ll prepare a Shopping List for you :)</string>
+    <string name="LoginWelcomeSubtitile">Here you can collect your Recipes, plan a menu and then we\'ll prepare a Shopping List for you :)</string>
     <string name="signInWithGoogle">Sign in with Google</string>
     <string name="SigningIn">Signing in...</string>
     <string name="somethingWentWrong">Something went wrong</string>
