@@ -1,5 +1,6 @@
-package pl.org.akai.eater
+package pl.org.akai.eater.authScreen
 
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
@@ -8,8 +9,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import pl.org.akai.eater.R
 import pl.org.akai.eater.ui.EaterShapes
 import pl.org.akai.eater.ui.EaterTheme
 import pl.org.akai.eater.ui.EaterTypography
@@ -26,30 +26,31 @@ import pl.org.akai.eater.ui.EaterTypography
 @Composable
 fun LoginFragment(
     onClick: () -> Unit,
+    isLoading: Boolean,
 ) {
-    var isLoading = remember { mutableStateOf(false) }
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(R.string.LoginWelcome),
+            text = stringResource(R.string.login_welcome),
             style = EaterTypography.h1
         )
         Text(
             modifier = Modifier
                 .padding(horizontal = 60.dp)
                 .padding(vertical = 24.dp),
-            text = stringResource(R.string.LoginWelcomeSubtitile),
+            text = stringResource(R.string.login_welcome_subtitle),
             style = EaterTypography.h3,
             textAlign = TextAlign.Center
         )
         SignInButton(
-            text = stringResource(R.string.signInWithGoogle),
-            loadingText = stringResource(R.string.SigningIn),
+            text = stringResource(R.string.signin_with_google),
+            loadingText = stringResource(R.string.signing_in),
             icon = painterResource(id = R.drawable.ic_google_icon),
-            onClick = onClick
+            onClick = onClick,
+            isLoading = isLoading
         )
     }
 }
@@ -122,8 +123,8 @@ fun SignInButton(
 @Composable
 fun LoginPreview() {
     EaterTheme {
-        Scaffold { innerPadding ->
-            LoginFragment( onClick = {} )
+        Scaffold {
+            LoginFragment(onClick = {}, isLoading = false)
         }
     }
 }

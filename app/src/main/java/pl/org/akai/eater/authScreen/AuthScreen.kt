@@ -1,25 +1,21 @@
 package pl.org.akai.eater.authScreen
 
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import com.google.android.gms.common.api.ApiException
-import kotlinx.coroutines.launch
-import pl.org.akai.eater.LoginFragment
+import kotlinx.coroutines.flow.collect
 import pl.org.akai.eater.contracts.AuthResultContract
-import pl.org.akai.eater.viewmodel.AuthViewModel
+import pl.org.akai.eater.util.RequestCode
 
 @Composable
 fun AuthScreen(
     viewModel: AuthViewModel,
     onUserLoggedIn: () -> Unit
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    var text = remember { mutableStateOf<String?>(null) }
-    val user = remember(viewModel) { viewModel.user }
-    val signInRequestCode = 1
+    val text = remember { mutableStateOf<String?>(null) }
+    val state = viewModel.uiState.collectAsState().value
+    val signInRequestCode = RequestCode.signin
 
     val authResultLauncher =
         rememberLauncherForActivityResult(contract = AuthResultContract()) { task ->
@@ -28,22 +24,27 @@ fun AuthScreen(
                 if (account == null) {
                     text.value = "Google sign in failed"
                 } else {
-                    coroutineScope.launch {
-                        viewModel.signIn(
-                            email = account.email!!,
-                            displayName = account.displayName!!,
-                        )
-                    }
-                    onUserLoggedIn()
+                    viewModel.setEvent(AuthScreenContract.Event.OnSignInClick(account.email, account.displayName))
                 }
             } catch (e: ApiException) {
                 text.value = "Google sign in failed"
             }
         }
+
+    LaunchedEffect(viewModel.effect) {
+        viewModel.effect.collect { effect ->
+            when(effect) {
+                is AuthScreenContract.Effect.SignIn -> onUserLoggedIn()
+                is AuthScreenContract.Effect.FetchingError -> Log.e("SIGNIN", "FETCHING ERROR")
+            }
+        }
+    }
+
     LoginFragment(
         onClick = {
             text.value = null
             authResultLauncher.launch(signInRequestCode)
-        }
+        },
+        isLoading = state.loading
     )
 }

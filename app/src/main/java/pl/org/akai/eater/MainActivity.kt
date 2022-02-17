@@ -16,7 +16,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import pl.org.akai.eater.authScreen.AuthScreen
-import pl.org.akai.eater.viewmodel.AuthViewModel
 import pl.org.akai.eater.navigation.EaterScreen
 import pl.org.akai.eater.ui.EaterTheme
 import pl.org.akai.eater.util.NullArgumentException
