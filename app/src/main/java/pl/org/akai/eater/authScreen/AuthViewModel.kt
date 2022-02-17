@@ -12,8 +12,7 @@ class AuthViewModel : BaseViewModel<AuthScreenContract.Event, AuthScreenContract
     private suspend fun signIn(email: String?, displayName: String?) {
         setState { copy(user, true) }
         delay(2000) // Simulating network call
-        uiState.value.user = User(email, displayName)
-        setState { copy(user, false) }
+        setState { copy(User(email, displayName), false) }
     }
 
     override fun createInitialState(): AuthScreenContract.State {
