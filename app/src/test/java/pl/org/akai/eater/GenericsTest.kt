@@ -23,6 +23,10 @@ class GenericsTest {
 
     fun <E> mutableStackOf(vararg elements: E) = MutableStack(*elements)
 
+    class Box<T>(t: T) {
+        var value = t
+    }
+
     @Test
     fun main() {
         val stack = mutableStackOf(0.62, 3.14, 2.7)

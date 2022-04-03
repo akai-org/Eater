@@ -43,7 +43,8 @@ class IntroTest {
         val slowo: String = "Kotlin"
         println("Hello $slowo!")
         println("Hello ${slowo.uppercase()}!")
-        val zdanie = "Hello, ${slowo.toArray()}! Length ${slowo.length}"
+        val zdanie = "Hello, ${slowo.toCharArray()}! Length ${slowo.length}"
+        println(zdanie)
     }
 
     @Test
