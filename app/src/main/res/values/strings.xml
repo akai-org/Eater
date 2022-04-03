@@ -2,4 +2,9 @@
     <string name="app_name">Eater</string>
     <string name="recipes">Recipes</string>
     <string name="add_recipe">Add recipe</string>
+    <string name="login_welcome">Welcome to Eater!</string>
+    <string name="login_welcome_subtitle">Here you can collect your Recipes, plan a menu and then we\'ll prepare a Shopping List for you :)</string>
+    <string name="signin_with_google">Sign in with Google</string>
+    <string name="signing_in">Signing in...</string>
+    <string name="something_went_wrong">Something went wrong</string>
 </resources>
